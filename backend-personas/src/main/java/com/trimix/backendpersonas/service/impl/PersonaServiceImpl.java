@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -71,7 +72,7 @@ public class PersonaServiceImpl implements PersonaService {
                 .where(personaSpecification.filtroTipoDocumento(tipoDocumentoEnum)
                         .and(personaSpecification.filtroNombre(nombre)));
         Page<PersonaEntity> page = personaRepository.findAll(specification, pageRequest);
-        List<PersonaTablaDTO> listaPersonas = page.getContent().stream().map(persona -> modelMapper.map(persona, PersonaTablaDTO.class)).toList();
+        List<PersonaTablaDTO> listaPersonas = page.getContent().stream().map(persona -> modelMapper.map(persona, PersonaTablaDTO.class)).collect(Collectors.toList());
         return Util.itemMapeoPaginado(listaPersonas, page.getNumber(),page.getTotalElements(), page.getTotalPages());
     }
 
