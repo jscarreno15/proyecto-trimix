@@ -1,0 +1,123 @@
+<div class="body">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Personas</h1>
+      </div>
+      <div class="col text-end">
+        <button class="btn btn-success float-end" style="margin-top: 20px;" (click)="redirectToCrear()">
+          <i class="fa-solid fa-plus"></i> Nuevo
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container filtros">
+    <h5 style="font-size: 25px; border-bottom: 1px solid #ccc; padding: 15px;">Filtros</h5>
+    <div class="row" style="padding: 15px;">
+      <div class="col-4">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control" placeholder="Nombre..."  [(ngModel)]="nombreFiltro">
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="mb-3">
+          <label class="form-label">Tipo de Documento</label>
+          <select class="form-select" [(ngModel)]="documentoFiltro">
+            <option selected [value]="todosDocumentos">Todas</option>
+            <option  class="select-option" *ngFor="let tipoDocumento of TiposDocumentos" [value]="tipoDocumento.valor">
+              {{tipoDocumento.nombre}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="button" class="btn btn-primary float-end" (click)="aplicarFiltro()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>  
+  <div class="container tabla-personas">
+    <button type="button" class="btn btn-primary float-end" style="margin-top: 10px">
+      <i class="fa-solid fa-filter"></i>
+    </button>
+    <h5 style="font-size: 25px; border-bottom: 1px solid #ccc; padding: 15px;">Personas</h5>
+    <div class="row mt-3">
+      <div class="table-responsive">
+        <table class="table table-custom-striped border">
+          <table mat-table [dataSource]="personas" class="mat-elevation-z8 demo-table">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let element">{{element.id}}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let element">{{element.nombre}}</td>
+            </ng-container>
+          
+          
+            <ng-container matColumnDef="apellido">
+              <th mat-header-cell *matHeaderCellDef>Apellido</th>
+              <td mat-cell *matCellDef="let element">{{element.apellido}}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="numero_documento">
+              <th mat-header-cell *matHeaderCellDef>Número Documento</th>
+              <td mat-cell *matCellDef="let element">{{element.numeroDocumento}}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="tipo_documento">
+              <th mat-header-cell *matHeaderCellDef>Tipo Documento</th>
+              <td mat-cell *matCellDef="let element">{{element.tipoDocumento}}</td>
+            </ng-container>
+          
+          
+            <ng-container matColumnDef="fecha_nacimiento">
+              <th mat-header-cell *matHeaderCellDef>Fecha Nacimiento</th>
+              <td mat-cell *matCellDef="let element">{{element.fechaNacimiento}}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="editar">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button type="button" class="btn btn-primary" (click)="editarPersona(element.id)">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+              </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="borrar">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button mat-raised-button  (click)="openDialog(element.id,'1500ms', '0ms')" type="button" class="btn btn-danger" [disabled]="modalAbierto">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+                mat-row
+                (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)"
+                *matRowDef="let row; columns: displayedColumns;"
+            ></tr>
+          </table>
+          <div *ngIf="personas.length === 0" class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
+            <p>No existen resultados de personas.</p>
+          </div>   
+        </table>
+        <mat-paginator [length]="this.totalRegistros"
+              [pageSize]="this.registrosPorPagina"
+              [pageSizeOptions]="[ 5, 10, 50, 100]"
+              (page)="onPageChange($event)">
+        </mat-paginator> 
+      </div>
+    </div>
+  </div>
+</div>

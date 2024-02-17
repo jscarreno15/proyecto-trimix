@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="accordion">
+        <div class="accordion accordion-flush">
+            <div class="accordion-item">
+              <h1 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="font-size: 24px;">
+                  Datos Generales
+                </button>
+              </h1>
+              <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form  [formGroup]="formPersonas" class="was-validated">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label class="form-label form-check-input">Nombre</label>
+                                    <input type="text" class="form-control is-invalid" placeholder="Nombre..." formControlName="nombre" required>
+                                </div>
+                                <div *ngIf="validation('nombre')" class="invalid-feedback">Por favor ingrese el campo requerido.</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Apellido</label>
+                                    <input type="text" class="form-control is-invalid" placeholder="Apellido..." formControlName="apellido" required>
+                                </div>
+                                <div *ngIf="validation('apellido')" class="invalid-feedback">Por favor ingrese el campo requerido.</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Número Documento</label>
+                                    <input type="text" 
+                                           class="form-control is-invalid" 
+                                           placeholder="Número Documento..." 
+                                           formControlName="numeroDocumento" 
+                                           required
+                                           pattern="[0-9]{1,8}" 
+                                           inputmode="numeric"
+                                           maxlength="8"
+                                           minlength="7">
+                                    <div *ngIf="validation('numeroDocumento')" class="invalid-feedback">Por favor ingrese un número válido de hasta 8 dígitos.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Documento</label>
+                                    <select class="form-select" formControlName="tipoDocumento" required >
+                                      <option  class="select-option" *ngFor="let tipoDocumento of TiposDocumentos" [value]="tipoDocumento.valor">
+                                        {{tipoDocumento.nombre}}
+                                      </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="validation('tipoDocumento')" class="invalid-feedback">Por favor ingrese el campo requerido.</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha de Nacimiento</label>
+                                    <input type="date" class="form-control" formControlName="fechaNacimiento" required>
+                                    <div *ngIf="validation('fechaNacimiento')" class="invalid-feedback">Por favor ingrese el campo requerido.</div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </form>
+                    <div class="row d-flex justify-content-between botones">
+                        <div class="col-auto">
+                            <button class="btn btn-primary" (click)="volver()">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Volver
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" (click)="guardarPersona()" [disabled]="formPersonas.invalid">
+                                <i class="fa-regular fa-floppy-disk"></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>                                      
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
