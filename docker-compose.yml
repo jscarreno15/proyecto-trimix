@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  md-backend-personas:
+    restart: on-failure
+    container_name: md-backend-personas
+    build:
+      context: ./backend-personas
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      - my-network
+      
+  md-frontend-personas:
+    restart: on-failure
+    container_name: md-frontend-personas
+    build:
+      context: ./frontend-personas
+      dockerfile: Dockerfile
+    expose:
+      - 4200
+    ports:
+      - 4200:4200
+    depends_on:
+      - md-backend-personas
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge 
