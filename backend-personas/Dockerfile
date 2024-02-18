@@ -28,7 +28,7 @@ FROM adoptopenjdk:11-jre-hotspot
 COPY --from=build /app/backend-personas/target/backend-personas-0.0.1-SNAPSHOT.jar backend-personas-0.0.1-SNAPSHOT.jar
 
 # Expone el puerto en el que se ejecuta la aplicación Spring Boot
-EXPOSE 8080
+EXPOSE 4200
 
 # Define el comando para ejecutar la aplicación Spring Boot
 CMD ["java", "-jar", "backend-personas-0.0.1-SNAPSHOT.jar"]
