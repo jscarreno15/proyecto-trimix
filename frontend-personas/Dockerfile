@@ -1,5 +1,7 @@
+# Usar la imagen base de Node 18
 FROM node:18
 
+# Establecer el directorio de trabajo en el contenedor
 WORKDIR /app/
 
 # Copiar el código fuente al contenedor
@@ -13,18 +15,23 @@ RUN npm install @angular/cli@15.0.4 -g \
 # Construir la aplicación Angular
 RUN ng build
 
+# Instalar Nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/cache/apt/archives /var/lib/apt/lists/* \
     && rm -f /var/log/nginx/access.log && rm -f /var/log/nginx/error.log \
     && ln -s /dev/stderr /var/log/nginx/error.log && ln -s /dev/stdout /var/log/nginx/access.log
 
-# Copiar build completo a Nginx
+# Asegurar que los archivos construidos de Angular se copien al directorio que Nginx espera servir
 RUN cp -r dist/frontend-personas/* /var/www/html/
 
-# Configuraciones de Nginx
+# Copiar la configuración personalizada de Nginx al contenedor
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Verificar la configuración de Nginx y recargar el servicio
 RUN nginx -t && service nginx reload
 
+# Ejecutar Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]
 
-EXPOSE 80
+# Exponer el puerto 4200
+EXPOSE 4200
 
