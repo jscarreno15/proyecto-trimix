@@ -24,3 +24,5 @@ La aplicación cuenta con documentación de Swagger que describe sus endpoints y
 
 http://localhost:8080/swagger-ui.html#
 
+## informacion adicional:
+Esta aplicación cuenta con una base de datos tipo H2. La misma, al iniciar no contiene registros. Se recomienda, primeramente generar inserciones para ver el funcionamiento de la tabla.
